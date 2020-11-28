@@ -1,0 +1,37 @@
+body {
+    background-color: #bbd7e7;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    text-align: center;
+    color: #475555;
+}
+
+.column {
+    float: left;
+    width: 50%;
+}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+borderset {
+    border-style: solid;
+    border-color: grey;
+    border-width: 1px;
+    width: 670px;
+    height: 350px;
+}
+
+borderset:after {
+    clear: both
+} 
+

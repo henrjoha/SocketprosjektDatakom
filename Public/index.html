@@ -1,0 +1,153 @@
+<!DOCTYPE html> <!--Defines the HTML document-->
+<html lang="no"> <!--Sets the language for the webpage-->
+    <head> <!--Defined the head element, which is to say the top of the webpage. Sometimes menus are placed here-->
+        <meta charset="UTF-8"> <!--Sets the encoding of the webpage-->
+        <title>Datakommunikasjon - consoll</title> <!--Sets the title of the webpage-->
+        <link rel="stylesheet" href="style.css"> <!--Imports the stylesheet of the webpage. It gives element style-->
+        <script src="libraries/socket.io.js"></script><!--Load Socket.io library-->
+        <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+        <script>
+            var dataArr1 = []; 
+            var dataArr2 = []; 
+            var dataArr3 = [];
+            var dataArr4 = [];
+        </script>
+    </head> 
+    <body>
+        <center>
+            <div
+                style="border-style:double; border-color:grey; background: #9dd6d6; border-width:1px; width:550px; height: 200px;">
+    
+                <h1>Datakommunikasjon</h1>
+                <h4>IELEG2001</h4>
+                <h3>Daniel Carton, Henrik Johannessen, Tobias Lien, Vetle Elvebakken</h3>
+    
+                <div style="clear:both" </div>
+                    <input id="DataRequest" type="submit" value="Request data" onclick="requestDataFromBoard(250)"/>
+                    <input id="DataDenial" type="submit" value="Stop data requst" onclick="stopDataFromBoard()"/></div>
+    
+        </center><br><br>
+    
+        <div class="row">
+    
+            <div class="column">
+    
+                <center>
+    
+                    <div
+                        style="border-style:double; border-color:grey; background: #8ed7d7; border-width:1px; width:670px; height: 350px; border-radius: 5px;">
+    
+                        <br><select id="sensors1">
+                            <option>Sensor Select</option>
+                            <optgroup label="Digital signals"></optgroup>
+                            <option>Optical broken</option>
+                            <option>Button sensor</option>
+                            <option>Tilt switch sensor</option>
+                            <option>Reed switch sensor</option>
+                            <optgroup label="Analog signals"></optgroup>
+                            <option>Temperature sensor</option>
+                            <option>Light intensity sensor</option>
+                            <option>Raw Sensor data</option>
+                            <optgroup label="Other functions"></optgroup>
+                            <option>turn on relay</option>
+                        </select>
+    
+                        <div><input placeholder="ESP32 1"><input id="Graphreset1" type="submit" value="Reset graph" /></div>
+                        <br>
+     
+                        <div id="ESP32-1" style="width: 500px; height: 250px;"></div>
+                        <div style="clear:both" </div>
+    
+                </center><br><br><br>
+    
+                <center>
+    
+                    <div
+                        style="border-style:double; border-color:grey; background: #8ed7d7; border-width:1px; width:670px; height: 350px; border-radius: 5px">
+    
+                        <br><select id="sensors3">
+                            <option>Sensor Select</option>
+                            <optgroup label="Digital signals"></optgroup>
+                            <option>Optical broken</option>
+                            <option>Button sensor</option>
+                            <option>Tilt switch sensor</option>
+                            <option>Reed switch sensor</option>
+                            <optgroup label="Analog signals"></optgroup>
+                            <option>Temperature sensor</option>
+                            <option>Light intensity sensor</option>
+                            <option>Raw Sensor data</option>
+                        </select>
+    
+                        <div><input placeholder="ESP32 3"><input id="Graphreset3" type="submit" value="Reset graph" /></div>
+    
+                        <br>
+    
+                        <div id="ESP32-3" style="width: 500px; height: 250px;"></div>
+                        <div style="clear:both" </div>
+    
+                </center>
+    
+            </div>
+    
+            <div class="column">
+    
+                <center>
+    
+                    <div
+                        style="border-style:double; border-color:grey; background: #8ed7d7; border-width:1px; width:670px; height: 350px; border-radius: 5px">
+    
+                        <br><select id="sensors2">
+                            <option>Sensor Select</option>
+                            <optgroup label="Digital signals"></optgroup>
+                            <option>Optical broken</option>
+                            <option>Button sensor</option>
+                            <option>Tilt switch sensor</option>
+                            <option>Reed switch sensor</option>
+                            <optgroup label="Analog signals"></optgroup>
+                            <option>Temperature sensor</option>
+                            <option>Light intensity sensor</option>
+                            <option>Raw Sensor data</option>
+                        </select>
+    
+                        <div><input placeholder="ESP32 2"><input id="Graphreset2" type="submit" value="Reset graph" /></div>
+    
+                        <br>
+    
+                        <div id="ESP32-2" style="width: 500px; height: 250px;"></div>
+                        <div style="clear:both" </div>
+    
+                </center><br><br><br>
+    
+                <center>
+    
+                    <div
+                        style="border-style:double; border-color:grey; background: #8ed7d7; border-width:1px; width:670px; height: 350px; border-radius: 5px">
+    
+                        <br><select id="sensors4">
+                            <option>Sensor Select</option>
+                            <optgroup label="Digital signals"></optgroup>
+                            <option>Optical broken</option>
+                            <option>Button sensor</option>
+                            <option>Tilt switch sensor</option>
+                            <option>Reed switch sensor</option>
+                            <optgroup label="Analog signals"></optgroup>
+                            <option>Temperature sensor</option>
+                            <option>Light intensity sensor</option>
+                            <option>Raw Sensor data</option>
+                        </select>
+    
+                        <div><input placeholder="ESP32 4"><input id="Graphreset4" type="submit" value="Reset graph" /></div>
+    
+                        <br>
+    
+                        <div id="ESP32-4" style="width: 500px; height: 250px;"></div>
+                        <div style="clear:both" </div>
+    
+                </center><br><br><br>
+    
+            </div>
+    
+        <script src="script/chart.js"></script> 
+        <script src="script/socket.js"></script> <!--This allows you to change the property of Socket.io (the WebSockets) ALL SOCKET.IO FUNCTIONS ARE ALSO PLACED HERE!-->
+    </body>
+</html>
