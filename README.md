@@ -32,10 +32,11 @@ Følg beksrivelsen og pass på at `entry point` er satt til `index.js` og ikke `
 
 Installer "dependencies"
 ```
-sudo npm i express firebase-admin socketio nodemon assert
+sudo npm i express firebase-admin socketio nodemon assert http
 ```
 ##Last ned koden
 
 Last ned filene som zip og ekstrakter alt inn i prosjekt mappen som ble laget tidligere.
 
+For at koden skal kunne kjøre fra en annen enhet, må `IPaddr` under `Public/script/socket.js` endres til din egen. 
 
