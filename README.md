@@ -34,7 +34,7 @@ Installer "dependencies"
 ```
 sudo npm i express firebase-admin socketio nodemon assert http
 ```
-##Last ned koden
+## Last ned koden
 
 Last ned filene som zip og ekstrakter alt inn i prosjekt mappen som ble laget tidligere.
 
