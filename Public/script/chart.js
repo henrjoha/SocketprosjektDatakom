@@ -106,7 +106,7 @@ window.onload = function () {
         }
 
         if ((sensors1Select.selectedIndex < 5) && (sensors1Select.selectedIndex != 0)) {
-            SensorVal1 = Math.floor(Math.random() * 2);
+            SensorVal1 = Math.floor(SensorVal1/4095);
         }
 
         if (sensors1Select.selectedIndex == 5) {
@@ -127,7 +127,7 @@ window.onload = function () {
         }
 
         if ((sensors2Select.selectedIndex < 5) && (sensors2Select.selectedIndex != 0)) {
-            SensorVal2 = Math.floor(Math.random() * 2);
+            SensorVal2 = Math.floor(SensorVal1/4095);
         }
 
         if (sensors2Select.selectedIndex == 5) {
@@ -148,7 +148,7 @@ window.onload = function () {
         }
 
         if ((sensors3Select.selectedIndex < 5) && (sensors3Select.selectedIndex != 0)) {
-            SensorVal3 = Math.floor(Math.random() * 2);
+            SensorVal3 = Math.floor(SensorVal1/4095);
         }
 
         if (sensors3Select.selectedIndex == 5) {
@@ -169,7 +169,7 @@ window.onload = function () {
         }
 
         if ((sensors4Select.selectedIndex < 5) && (sensors4Select.selectedIndex != 0)) {
-            SensorVal4 = Math.floor(Math.random() * 2);
+            SensorVal4 = Math.floor(SensorVal1/4095);
         }
 
         if (sensors4Select.selectedIndex == 5) {
