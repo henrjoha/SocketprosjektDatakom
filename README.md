@@ -55,6 +55,6 @@ Deretter kan du skrive «arduino» i en terminal, eller se om en snarvei har bli
 
 For å laste opp kode til ESP32 kontrollerne må man først legge inn riktig kode og deretter laste den opp. Husk å ha mikrokontrolleren plugget inn i en USB mens dette foregår. 
 
-For å få eksempelkoden til å kjøre må man ha installert Wifi.h og WifiMulti.h samt SocketIoClient bibliotekene. Disse kan installeres via Arduino IDE, eller man kan laste de ned selv og putte de i libraries mappen i arduino mappen, gjør man ikke dette får man en error og koden kompilerer ikke.
+For å få eksempelkoden til å kjøre må man ha installert `Wifi.h` og `WifiMulti.h` samt SocketIoClient bibliotekene. Disse kan installeres via Arduino IDE, eller man kan laste de ned selv og putte de i libraries mappen i arduino mappen, gjør man ikke dette får man en error og koden kompilerer ikke.
 
 For at esp32 modulen skal kunne tilkobles en annen webserver må IP addressen endres til webserveren sin. Det samme gjelder ssid og wifi passord som må tilsvare nettverket det er på.
