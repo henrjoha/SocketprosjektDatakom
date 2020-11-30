@@ -41,20 +41,20 @@ Last ned filene som zip og ekstrakter alt inn i prosjekt mappen som ble laget ti
 For at koden skal kunne kjøre fra en annen enhet, må `IPaddr` under `Public/script/socket.js` endres til din egen. 
 
 ## Sett opp ESP32
+For å laste over koden til Esp32 modulen brukte vi Arduino IDE. Den kan lastes ned fra arduino.cc.\\
 
-Last ned Arduino IDE fra https://www.arduino.cc/en/software
+Pakk ut filene og kjør instalasjon
+```
+  cd Downloads
+  tar -xf arduino-1.8.13-linuxaarch64.tar.xz -C /home/$USER/
+  cd ..
+  cd arduino-1.8.13
+  ./install.sh
+```
+Deretter kan du skrive «arduino» i en terminal, eller se om en snarvei har blitt laget på skrivebordet.
 
-```
-sudo usermod -a -G dialout $USER && \
-sudo apt-get install git && \
-wget https://bootstrap.pypa.io/get-pip.py && \
-sudo python get-pip.py && \
-sudo pip install pyserial && \
-mkdir -p ~/Arduino/hardware/espressif && \
-cd ~/Arduino/hardware/espressif && \
-git clone https://github.com/espressif/arduino-esp32.git esp32 && \
-cd esp32 && \
-git submodule update --init --recursive && \
-cd tools && \
-python3 get.py
-```
+For å laste opp kode til ESP32 kontrollerne må man først legge inn riktig kode og deretter laste den opp. Husk å ha mikrokontrolleren plugget inn i en USB mens dette foregår. 
+
+For å få eksempelkoden til å kjøre må man ha installert Wifi.h og WifiMulti.h samt SocketIoClient bibliotekene. Disse kan installeres via Arduino IDE, eller man kan laste de ned selv og putte de i libraries mappen i arduino mappen, gjør man ikke dette får man en error og koden kompilerer ikke.
+
+For at esp32 modulen skal kunne tilkobles en annen webserver må IP addressen endres til webserveren sin. Det samme gjelder ssid og wifi passord som må tilsvare nettverket det er på.
