@@ -1,23 +1,25 @@
-
+//laster inn moduler 
 const express = require("express");
 const app = express();
 const assert = require("assert");
-const server = require("http").createServer(app);
-const io = require("socket.io").listen(server);
+const server = require("http").createServer(app); // starter en http server
+const io = require("socket.io").listen(server);//starter en socket server over http serveren 
 
 var admin = require("firebase-admin"); 
 
-app.use(express.static('Public'));  
+
+app.use(express.static('Public'));  //express gjør index.html tilgjengelig via mappestruktur
 app.use(express.json()); 
 app.use(express.urlencoded({extended: false}))
 
-const serverPort = 5000;
 
+const serverPort = 5000;
 
 const dbname = "datakom-prosjekt-1";
 const dbuser = "henrjoha"
 const adminurl = `/home/${dbuser}/socketprosjekt/${dbname}-firebase-adminsdk-f9ex6-7f320e57ef.json`;
 
+// oppsett av firebase
 const serviceAccount = require(adminurl);
 //$env: GOOGLE_APPPLICATION_CREDENTIALS='/home/henrjoha/socketprosjekt/datakom-prosjekt-1-firebase-adminsdk-f9ex6-7f320e57ef.json'
 var fAdmin = admin.initializeApp({
@@ -26,14 +28,14 @@ var fAdmin = admin.initializeApp({
   databaseURL: `https://${dbname}.firebaseio.com`
 });
 
-
 var db = fAdmin.database();
 
-server.listen(serverPort, function(){ //Here we tell the server to start listening (open) on the port we earlier defined
+//starter å lytte etter tilkoblinger på serverPort
+server.listen(serverPort, function(){
     console.log('listening on *:' + serverPort);
 });
 
-
+// for dato
 function getDateAsString() {
     var currentDate = new Date(); //We use the JavaScript Date object/function and then configure it
     var currentMonth;
@@ -54,7 +56,7 @@ function getDateAsString() {
     var date = currentDate.getFullYear() + "-" + currentMonth + "-" + currentDay;
     return date; //returns the date string
 }
-
+// for klokkeslett
 function getTimeAsString() {
     var currentTime = new Date(); //We use the JavaScript Date object/function and then configure it
 
@@ -84,6 +86,7 @@ function getTimeAsString() {
     return time; //returns the time string
 }
 
+
 // //sletter gammel data
 // var hour = 1; //timer til data blir slettet
 // var oldref = db.ref('https://console.firebase.google.com/project/datakom-prosjekt-1/database/datakom-prosjekt-1/data/~2Fsensordata~2Fsensor_1');
@@ -95,6 +98,7 @@ function getTimeAsString() {
 // });
 
 
+// Kjører for klient tilkobling 
 io.on('connection', (socket) => {
 
     var regDate = getDateAsString(); //Get the register date
@@ -104,23 +108,24 @@ io.on('connection', (socket) => {
     var client = io.sockets.connected[clientID]; 
     var clientIPRAW = client.request.connection.remoteAddress; 
     var IPArr = clientIPRAW.split(":",4);
-
-    io.emit("clientConnected", clientID, IPArr[3]);
-    console.log(`Klient tilkoblet: ${IPArr[3]}`)
-    socket.on('changeTurnState', function(state) {
-
+	
+    io.emit("clientConnected", clientID, IPArr[3]); // gjør clientConnected tilgjengelig for alle på samme port via socket.io
+    console.log(`Klient tilkoblet: ${IPArr[3]}`) 
+	
+    socket.on('changeTurnState', function(state) { //kjører på endring i turnstate
         io.emit('TurnStateChange', state);
         app.post('TurnstateChange', state);
-		console.log('user ' + clientID + ' changed the Turn state to: ' + state);
-
-	    });
+	console.log('user ' + clientID + ' changed the Turn state to: ' + state);
+    });
+	
     var timers = [];
+	// bestemer om requestDataFromBoard er valid og emiter dataRequest om time interval er lang nokk.
     socket.on('requestDataFromBoard', function(interval) { 
         console.log('user ' + clientID + ' requested data with interval (ms): ' + interval);
-        if (interval > 99) { //if the timeinterval is not more than 100ms it does not allow it to start
-            timers.push( //If an actual argument is given (a time period) it starts the timer and periodically calls the function
-                setInterval(() => { //If an actual argument is given (a time period) it starts the timer and periodically calls the function
-                    io.emit('dataRequest', 0); //Send "dataRequest" command/function to all ESP32's
+        if (interval > 99) {
+            timers.push(
+                setInterval(() => {
+                    io.emit('dataRequest', 0); 
                 }, interval)
             );
         } 
@@ -129,32 +134,26 @@ io.on('connection', (socket) => {
         }
     });
 
-    socket.on('stopDataFromBoard', () => { //This function stops all the timers set by a user so that data will no longer be sent to the webpage
+    socket.on('stopDataFromBoard', () => {// stpper data ved å cleare timeren 
         console.log('user ' + clientID + ' cleared data request interval');
-
-        for (var i = 0; i < timers.length; i++) {//For loop to clear all set timers
-            clearTimeout(timers[i]); //Cleartimer is the same as stopping the timer, in this case we clear all possible timers previously set
+        for (var i = 0; i < timers.length; i++) {
+            clearTimeout(timers[i]); 
         }
 
     });
-
-
-    socket.on('dataFromBoard', (data) => { //This is function that actually receives the data. The earlier one only starts the function.
-
+ 
+    socket.on('dataFromBoard', (data) => { //Mottar data
         // var sensdata = data.splt(' ', 2);
-
         io.emit('data', data); //Everytime a "dataFromBoard" tag (with data) is sent to the server, "data" tag with the actual data is sent to all clients
         //This means the webbrowser will receive the data, and can then graph it or similar.
         console.log('user ' + IPArr[3] + ' delivered: ' + data);  
 
-        db.ref('sensordata/'+ "sensor_1/"/* + regUID*/).push({ //One can store data in a subdirectory for the user in sensordata by removing the comment inside .ref
-            /* UID: regUID, If you choose to have data ownership stored per entry the microcontroller would have to be authenticated */
-              _id: IPArr[3], //You could add an ekstra variable to every dataFromBoard transmission with a microcontrollerID to lessen the need for authentication
-              data: data, //This would be the sensor data, eg a temperature datapoint
-              logged_at: regDate + "-" + currentTime, //When is the data taken, both date and time
-          }).then((snap) => { //When the data has been successfully saved
+        db.ref('sensordata/'+ "sensor_1/"/* + regUID*/).push({ //lagrer data til databasen i firebase.
+              _id: IPArr[3], 
+              data: data, /
+              logged_at: regDate + "-" + currentTime, 
+          }).then((snap) => { 
               console.log("Data lagret i database");
           });
     });
-
 });
